@@ -7,14 +7,14 @@ class inventaire extends joueur{
         this.carotte = {name : "carotte", type : "graine", prix : 100, nb_poss : 0, growTime : 50};
         this.pomme = {name : "pomme", type : "graine", prix : 150, nb_poss : 0, growTime : 50};
         this.tournesol = {name : "tournesol", type : "graine", prix : 200, nb_poss : 0, growTime : 50};
-        this.blé = {name : "blé", type : "graine", prix : 200,  nb_poss : 0, growTime : 50};
-    // Recoltés :
+        this.ble = {name : "ble", type : "graine", prix : 200,  nb_poss : 0, growTime : 50};
+    // Recoltes :
         this.patatef = {name : "patatef", type : "finie", nb_poss : 0};
         this.saladef = {name : "saladef", type : "finie", nb_poss : 0};
         this.carottef = {name : "carottef", type : "finie", nb_poss : 0};
         this.pommef = {name : "pommef", type : "finie", nb_poss : 0};
         this.tournesolf = {name : "tournesolf", type : "finie", nb_poss : 0};
-        this.bléf = {name : "blé", type : "finief",  nb_poss : 0};
+        this.blef = {name : "ble", type : "finief",  nb_poss : 0};
     // Autres :
         this.tracteur = {name : "tracteur", type : "install", prix : 0,  nb_poss : 1}
         this.laboureur = {name : "laboureur", type : "install", prix : 0,  nb_poss : 0}
@@ -50,10 +50,10 @@ class inventaire extends joueur{
                 if(acheter)
                     this.set_Solde_down(this.tournesol.prix, nb);
                 break;
-            case "blé" :
-                this.blé.nb_poss += nb;
+            case "ble" :
+                this.ble.nb_poss += nb;
                 if(acheter)
-                    this.set_Solde_down(this.blé.prix, nb);
+                    this.set_Solde_down(this.ble.prix, nb);
                 break;
             case "fractor" :
                 if(super.get_Solde() >= this.tracteur_silencieux.prix * nb){
@@ -62,7 +62,7 @@ class inventaire extends joueur{
                 else console.log("Fonds insuffisants");
         }
     }
-    Ajouter_Obj_Recolté(nom, nb){
+    Ajouter_Obj_Recolte(nom, nb){
         switch(nom){
             case "patate" :
                 this.patatef.nb_poss += nb;
@@ -80,13 +80,13 @@ class inventaire extends joueur{
             case "tournesol" :
                 this.tournesolf.nb_poss += nb;
                 break;
-            case "blé" :
-                this.bléf.nb_poss += nb;
+            case "ble" :
+                this.blef.nb_poss += nb;
                 break;
         }
     }
 // Supprimer et/ou vendre
-    Supp_Obj_Récolté(nom, nb, vendre){
+    Supp_Obj_Recolte(nom, nb, vendre){
         switch(nom){
             case "patatef" :
                 this.patatef.nb_poss -= nb;
@@ -113,10 +113,10 @@ class inventaire extends joueur{
                 if(vendre)
                     this.set_Solde_up(this.tournesol.prix/2, nb);
                 break;
-            case "bléf" :
-                this.bléf.nb_poss -= nb;
+            case "blef" :
+                this.blef.nb_poss -= nb;
                 if(vendre)
-                    this.set_Solde_up(this.blé.prix/2, nb);
+                    this.set_Solde_up(this.ble.prix/2, nb);
                 break;
         }
     }

@@ -1,41 +1,77 @@
+const canvas = document.getElementById('canvas');
+const context = canvas.getContext('2d');
+
+
 class Map{
     constructor(longueur, largeur, player) {
         this.tabMap = new Array(longueur);
         this.longueur = longueur;
         this.largeur = largeur;
 
-        //Création Map tab 2 dimensions
-        for (var i = 0; i < this.tabMap.length; i++) {
+        //Creation Map tab 2 dimensions
+        for (let i = 0; i < this.tabMap.length; i++) {
             this.tabMap[i] = new Array(largeur);
         }
 
         //Initialiser toutes les cases en herbe :
-        for (var i = 0; i < longueur; i++) {
-            for (var j = 0; j < largeur; j++) {
+        for (let i = 0; i < longueur; i++) {
+            for (let j = 0; j < largeur; j++) {
                 this.tabMap[i][j] = new Parcelle(player); // de base herbe dans le constructor de Parcelle()
             }
         }
+    }
+
+    getTabMap(){
+        return this.tabMap;
     }
 
     placerParcelle(indiceX, indiceY, parcelle) {
         this.tabMap[indiceX][indiceY].onclick = parcelle;
     }
 
-    afficherMap() {
-        for (var i = 0; i < this.longueur; i++) {
-            for (var j = 0; j < this.largeur; j++) {
-                if(this.tabMap[i][j] instanceof Parcelle === true)
-                        document.write("P");
-                else if(this.tabMap[i][j] instanceof ParceTerre === true)
-                        document.write("");
-                else (this.tabMap[i][j] instanceof ParcePousse === true)
-                        document.write("");
-                }
-            document.write("<br>");
+    afficherMap(canvas) {
+        if (counter!=0){
+            //canvas.Children.Clear();
         }
-        }
-}
+        
+        let imgHerbe = new Image();
+        let imgTerre = new Image();
+        let imgPousse1 = new Image();
+        let imgPousse2 = new Image();
+        let imgPousse3 = new Image();
 
+        for (let i = 0; i < this.longueur; i++) {
+            for (let j = 0; j < this.largeur; j++) {
+                if(this.tabMap[i][j] instanceof Parcelle === true && this.tabMap[i][j] instanceof ParceTerre === false && this.tabMap[i][j] instanceof ParcePousse === false){
+                    imgHerbe = new Image();
+                    imgHerbe.src = './../img/grass.png';
+                    imgHerbe.onload = function(){
+                        context.drawImage(imgHerbe, i*80, j*60,79,59);
+                    }
+                }
+                else if(this.tabMap[i][j] instanceof Parcelle === true && this.tabMap[i][j] instanceof ParceTerre === true){
+                    console.log('terre built');
+                    imgTerre = new Image();
+                    imgTerre.src='./../img/dirt.png';
+                    imgHerbe.onload = function(){
+                        context.drawImage(imgTerre, i*80, j*60,79,59);
+                    }
+                }
+                else if(this.tabMap[i][j] instanceof Parcelle === true && this.tabMap[i][j] instanceof ParcePousse === true){
+                    imgPousse1 = new Image();
+                    imgPousse2 = new Image();
+                    imgPousse3 = new Image();
+                    imgPousse1.src='';
+                    imgPousse2.src='';
+                    imgPousse3.src='';
+                    console.log('pousse');
+                }
+            }
+        }
+    
+    }
+
+}
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 class Parcelle {
@@ -63,8 +99,8 @@ class Parcelle {
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 class ParceTerre extends Parcelle {
-    constructor(hauteur, largeur, player) {
-        super(hauteur, largeur, player);
+    constructor(player) {
+        super(player);
         this.appearance = 'terre.png';
         this.plantable = true;
     }
@@ -109,8 +145,8 @@ class ParcePousse extends Parcelle {
                 case "tournesol" :
                     parcelle.appearance = "pousse_tournesol.png"
                     break;
-                case "blé" :
-                    parcelle.appearance = "pousse_blé.png"
+                case "ble" :
+                    parcelle.appearance = "pousse_ble.png"
                     break;
             }
         }
@@ -119,18 +155,18 @@ class ParcePousse extends Parcelle {
         }
     }
 
-     poussePlante(parcellequipousse) {// découper en 3 fonctions pour chaque png de la pousse avec settimeout;
+     poussePlante(parcellequipousse) {// decouper en 3 fonctions pour chaque png de la pousse avec settimeout;
         setTimeout(this.recolte(), this.timerPousse);
         this.datecom = Date();
-        while (this.timerPousse < this.player.graineChoisie.growTime && this.pousseFinie == false) { // Si le timer est inférieur au temps de pousse
+        while (this.timerPousse < this.player.graineChoisie.growTime && this.pousseFinie == false) { // Si le timer est inferieur au temps de pousse
             if(Date() == Date())
-                // à moitié pousse : stopper tant quil a pas mis dengrais
-                // puis dès que tu mets l'eau => la t'as le png du plant bien géchar et tu sors direct du while pour recolter
+                // à moitie pousse : stopper tant quil a pas mis dengrais
+                // puis dès que tu mets l'eau => la t'as le png du plant bien gechar et tu sors direct du while pour recolter
                 wait(i);
             this.timerPousse++;
         }
         this.pousseFinie = true;
-        parcellequipousse.recolte(parcellequipousse); // Appel de la fonction qui change l'image de la parcelle et donne les récompenses
+        parcellequipousse.recolte(parcellequipousse); // Appel de la fonction qui change l'image de la parcelle et donne les recompenses
     }
 
     launchRedirt(Parcepouss){
@@ -142,12 +178,40 @@ class ParcePousse extends Parcelle {
             this.appearance = 'poussesFinies.png'
 
             parcellePrete.onclick = function () {
-                this.player.Ajouter_Obj_Recolté(graineChoisie.name, graineChoisie.nb_recolte); // ajoute le produit fini à l'inventaire
-                console.log("récolte effectuée, Vous avez gagné  = " + this.player.solde);
+                this.player.Ajouter_Obj_Recolte(graineChoisie.name, graineChoisie.nb_recolte); // ajoute le produit fini à l'inventaire
+                console.log("recolte effectuee, Vous avez gagne  = " + this.player.solde);
                 wait(1);
                 this.launchRedirt();
-            }; // Donne de l'argent et les ressources au joueur (classe Player) au moment du clic sur la parcelle passée en parametre
+            }; // Donne de l'argent et les ressources au joueur (classe Player) au moment du clic sur la parcelle passee en parametre
         }
+    }
+}
+
+function testActionAFaire(x,y,tabmap){
+    let indiceTab = getIndiceByCoords(x,y);
+    console.log(tabmap);
+
+
+    if(tabmap[indiceTab.i][indiceTab.j] instanceof Parcelle === true && tabmap[indiceTab.i][indiceTab.j] instanceof ParceTerre === false && tabmap[indiceTab.i][indiceTab.j] instanceof ParcePousse === false ){
+        tabmap[indiceTab.i][indiceTab.j] = new ParceTerre(player);
+        counter++;
+        Map1.afficherMap(canvas);
+    }
+
+    if(tabmap[indiceTab.i][indiceTab.j] instanceof ParceTerre === true){
+        
+    }
+    
+    
+    if(tabmap[indiceTab.i][indiceTab.j] instanceof ParcePousse === true){
+        
+    }
+}
+
+function getIndiceByCoords(x,y){
+    return {
+        i:Math.ceil(x/80)-1,
+        j:Math.ceil(y/60)-1
     }
 }
 

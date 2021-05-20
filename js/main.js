@@ -1,11 +1,25 @@
 let player = new inventaire('bob');
+let counter = 0;
 
 console.log(player.pseudo);
 let Map1 = new Map(20,20, player);
+let tabMap = Map1.getTabMap();
+Map1.afficherMap(canvas,context);
 
-let testTerre = new ParceTerre();
+// Position X du canvas
+elemLeft = canvas.offsetLeft,
+// Position Y du canvas
+elemTop = canvas.offsetTop,
 
-Map1.afficherMap();
+// Add event listener for click events.
+canvas.addEventListener('click', function(event) {
+    x = event.pageX - elemLeft,
+    y = event.pageY - elemTop;
+console.log(x,y);
+    testActionAFaire(x,y,tabMap);
+}, false);
+
+
 //Map1.placerParcelle(1,1,testTerre); // Place une parcelle de terre en (1,1)
 
 //testTerre.launchPousse(player.carotte, testTerre);
