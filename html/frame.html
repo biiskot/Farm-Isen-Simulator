@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Carte</title>
+    <script src="https://d309knd7es5f10.cloudfront.net/createjs_1.1_min.js"></script>
+    <script>
+        var zon=true;
+        var zns=false;
+    </script>
+    <script src="https://d309knd7es5f10.cloudfront.net/zim_7.js"></script>
+    <script>
+        var scaling = "fit";
+        var width = 1920;
+        var height = 1080;
+
+        var frame = new Frame(scaling,width,height);
+        frame.on("ready",function(){
+            zog("ready from ZIM Frame");
+
+            var stage = frame.stage;
+            var stageW = frame.width;
+            var stageH = frame.height;
+            frame.outerColor = "#444";
+            frame.color = "#ddd";
+
+            var holder = new Container();
+            var tiles = new Tile(new Rectangle(50,50,frame.light,frame.dark).centerReg({add:false}),15,15)
+                .rot(45)
+                .addTo(holder)
+            holder.sca(2,1).center();
+
+            console.log(holder);
+            tiles.on("mouseover", function(e) {
+                e.target.color = frame.pink;
+                stage.update();
+            });
+
+            tiles.on("mouseout", function(e) {
+                e.target.color = frame.light;
+                stage.update();
+            });
+
+            var ball = new Circle(40, frame.blue, frame.dark).center().sha();
+
+            tiles.on("click", function(e) {
+                var point = tiles.localToGlobal(e.target.x, e.target.y)
+                ball.animate({
+                    obj:{x:point.x, y:point.y-35},
+                    time:1000,
+                    events:true
+                });
+                stage.update();
+            });
+
+
+            // var proportion = new Proportion(0, stageH, .8, 1.3);
+
+
+            // ball.on("animate",function(){
+            //     ball.sca(proportion.convert(ball.y));
+            // });
+
+
+
+            stage.update();
+
+        });
+    </script>
+</head>
+
+</html>
