@@ -2,7 +2,8 @@ let player = new inventaire('bob');
 let counter = 0;
 
 console.log(player.pseudo);
-let Map1 = new Map(20,20, player);
+let Map1 = new Map(8,6, player);
+let memoire = {x : 0, y : 0}, graine = {};
 let tabMap = Map1.getTabMap();
 Map1.afficherMap(canvas,context);
 
