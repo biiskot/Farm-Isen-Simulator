@@ -1,7 +1,7 @@
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
-let coeffDivX = 150;
-let coeffDivY = 1000/6;
+let coeffDivX = canvas.width/8;
+let coeffDivY = canvas.height/6;
 
 class Map{
     constructor(longueur, largeur, player) {
@@ -20,10 +20,6 @@ class Map{
                 this.tabMap[i][j] = new Parcelle(player); // de base herbe dans le constructor de Parcelle()
             }
         }
-    }
-
-    getTabMap(){
-        return this.tabMap;
     }
 
     placerParcelle(indiceX, indiceY, parcelle) {
@@ -75,7 +71,9 @@ class Parcelle {
     constructor(player) {
         this.appearance = 'herbe.png';
         this.plantable = false;
-        this.player = player;    }
+        this.recoltable = false;
+        this.player = player;  
+    }
 
 
     launchParceterre(x, y){
@@ -93,6 +91,7 @@ class ParceTerre extends Parcelle {
         super(hauteur, largeur, player);
         this.apparance = "./../img/dirt.png";
         this.plantable = true;
+        this.recoltable = false;
     }
 
     launchRoad(x, y){
@@ -124,6 +123,7 @@ class ParcePousse extends Parcelle {
         this.pousseFinie = false;
         this.timerPousse = 300000;
         this.appearance = "./../img/champs/road_millieu.png";
+        this.recoltable = false;
         console.log("nice : ", Map1.tabMap[x][y] instanceof ParcePousse);
         //this.time = setTimeout(poussePlante2(x, y, this.timerPousse), this.timerPousse / 3);
     }
@@ -141,7 +141,6 @@ function testActionAFaire(x,y,tabmap){
 
     if(tabmap[indiceTab.i][indiceTab.j] instanceof Parcelle === true && tabmap[indiceTab.i][indiceTab.j] instanceof ParceTerre === false && tabmap[indiceTab.i][indiceTab.j] instanceof ParcePousse === false ){
         tabmap[indiceTab.i][indiceTab.j].launchParceterre(indiceTab.i, indiceTab.j);
-        counter++;
         Map1.afficherMap(canvas);
         return;
     }
@@ -207,22 +206,26 @@ function poussePlante3(x, y, g) {
 function poussePlante4(x, y, g) {
     if(g.name == "salade") {
         Map1.tabMap[x][y].appearance = "./../img/champs/salade.png";
+        Map1.tabMap[x][y].recoltable = true;
         Map1.afficherMap(canvas);
         return;
     }
     else if(g.name == "tournesol"){
         Map1.tabMap[x][y].appearance = "./../img/champs/tournesol.png";
         Map1.afficherMap(canvas);
+        Map1.tabMap[x][y].recoltable = true;
         return;
     }
     else if(g.name == "ble"){
         Map1.tabMap[x][y].appearance = "./../img/champs/ble.png";
         Map1.afficherMap(canvas);
+        Map1.tabMap[x][y].recoltable = true;
         return;
     }
     else if(g.name == "carotte"){
         Map1.tabMap[x][y].appearance = "./../img/champs/carotte.png";
         Map1.afficherMap(canvas);
+        Map1.tabMap[x][y].recoltable = true;
         return;
     }
 }
