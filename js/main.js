@@ -1,10 +1,12 @@
 let player = new inventaire('bob');
 let counter = 0;
-
+let nbCaseX = 8, nbCaseY = 6;
+console.log("kk", -1 % 10);
 console.log(player.pseudo);
-let Map1 = new Map(8,6, player);
-let memoire = {x : 0, y : 0}, graine = {};
-
+let Map1 = new Map(nbCaseX,nbCaseY, player);
+let memoire = {x : 50, y : 50}, graine = {};
+//let tabMap = Map1.getTabMap();
+Map1.tabMap[0][1] = new ParceTerre();
 Map1.afficherMap(canvas,context);
 
 // Position X du canvas
@@ -17,7 +19,7 @@ canvas.addEventListener('click', function(event) {
     x = event.pageX - elemLeft,
     y = event.pageY - elemTop;
 console.log(x,y);
-    testActionAFaire(x,y,tabMap);
+    testActionAFaire(x,y,Map1.tabMap);
 }, false);
 
 

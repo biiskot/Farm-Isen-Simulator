@@ -27,7 +27,7 @@ class Map{
     }
 
     afficherMap(canvas) {
-       // context.clearRect(0, 0, canvas.width, canvas.height);
+        // context.clearRect(0, 0, canvas.width, canvas.height);
         //let imgHerbe = new Image();
         //let imgTerre = new Image();
         //let imgPousse = new Image();
@@ -59,7 +59,7 @@ class Map{
                 }
             }
         }
-    
+console.log("0" , Map1.tabMap[0][0].recoltable, "1", Map1.tabMap[0][1].recoltable)
     }
 
 }
@@ -72,7 +72,7 @@ class Parcelle {
         this.appearance = 'herbe.png';
         this.plantable = false;
         this.recoltable = false;
-        this.player = player;  
+        this.player = player;
     }
 
 
@@ -102,8 +102,8 @@ class ParceTerre extends Parcelle {
         /*
             ANIMATION TRACTEUR
          */
-        console.log("g", graine, "xy", memoire.x, memoire.y);
-        if(graine!= "" && Map1.tabMap[memoire.x][memoire.y] instanceof ParceTerre === true && Map1.tabMap[memoire.x][memoire.y].apparance == "./../img/road.png"){
+        console.log("g", graine.name, "xy", memoire.x, memoire.y);
+        if(graine.name!= undefined && Map1.tabMap[memoire.x][memoire.y] instanceof ParceTerre === true && Map1.tabMap[memoire.x][memoire.y].apparance == "./../img/road.png"){
             Map1.tabMap[x][y] = new ParcePousse(x, y);// GRAINE EN PARAM
             let g = graine;
             //graine = "";
@@ -111,7 +111,7 @@ class ParceTerre extends Parcelle {
             memoire.x = 50;
             memoire.y = 50;
         }
-        }
+    }
 }
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -146,7 +146,8 @@ function testActionAFaire(x,y,tabmap){
     }
 
     if(tabmap[indiceTab.i][indiceTab.j] instanceof ParceTerre === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/dirt.png"){
-        tabmap[indiceTab.i][indiceTab.j].launchRoad(indiceTab.i, indiceTab.j);
+        //tabmap[indiceTab.i][indiceTab.j].launchRoad(indiceTab.i, indiceTab.j);
+        dirtToRoutes_intelligent(indiceTab.i, indiceTab.j);
         Map1.afficherMap(canvas);
         return;
     }
@@ -159,9 +160,9 @@ function testActionAFaire(x,y,tabmap){
         return;
     }
 
-    
+
     if(tabmap[indiceTab.i][indiceTab.j] instanceof ParcePousse === true){
-        tabmap[indiceTab.i][indiceTab.j].recolte(indiceTab.i, indiceTab.j);
+        recolte_intelligente(indiceTab.i, indiceTab.j);
         Map1.afficherMap(canvas);
         return;
     }
@@ -253,4 +254,104 @@ function eau(){
         Map1.tabMap[memoire.x][memoire.y].launchPousse(memoire.x, memoire.y);
     else
         return;
+}
+
+
+function recolte_intelligente(x,y){
+    if(Map1.tabMap[x][y].recoltable === true){
+        //ajouter sprite machine recolte sur la case
+        Map1.tabMap[x][y].recolte(x,y);
+        Map1.afficherMap(canvas);
+
+        if(Map1.tabMap[x+1][y].recoltable !== undefined && Map1.tabMap[x+1][y].recoltable === true){ // test les cases adjacentes
+            recolte_intelligente(x+1,y);
+        }
+        if((x-1)>0){
+            if(Map1.tabMap[x-1][y].recoltable !== undefined && Map1.tabMap[x-1][y].recoltable === true){
+                recolte_intelligente(x-1,y);
+            }
+        }
+        if((y-1)>0){
+            if(Map1.tabMap[x][y-1].recoltable !== undefined && Map1.tabMap[x][y-1].recoltable === true){
+                recolte_intelligente(x,y-1);
+            }
+        }
+        if(Map1.tabMap[x][y+1].recoltable !== undefined && Map1.tabMap[x][y+1].recoltable === true){
+            recolte_intelligente(x,y+1);
+        }
+        else {
+            //info : la machine ne peut plus récolter
+        }
+    }
+}
+
+/*
+function arrosage_intelligent(){
+    //Parcours du tableau de cases
+    for(let i = 0 ; i < Map1.longueur ; i++){
+        for(let j = 0 ; j < Map1.largeur ; j++){
+            if(Map1.tabMap[i][j] instanceof ParcePousse === true && Map1.tabMap[i][j].water < 50/100){//Si eau à - de 50%
+                Map1.tabMap[i][j].water = 100; // Arrose si la case a moins de la moitié de sa capacité en eau
+                //Ajouter baisse énérgie machine ou coût de l'arrosage.
+            }
+        }
+    }
+}
+*/
+
+function dirtToRoutes_intelligent(x,y){ // Machine qui trace les sillons (routes)
+    if(Map1.tabMap[x][y] instanceof ParceTerre && Map1.tabMap[x][y].apparance == "./../img/dirt.png"){
+        Map1.tabMap[x][y].launchRoad(x,y);
+
+        if(Map1.tabMap[x+1][y] instanceof ParceTerre && Map1.tabMap[x+1][y].apparance == "./../img/dirt.png"){ // test les cases adjacentes
+            dirtToRoutes_intelligent(x+1,y);
+        }
+        if((x-1) > 0){
+            if(Map1.tabMap[x-1][y] instanceof ParceTerre && Map1.tabMap[x-1][y].apparance == "./../img/dirt.png"){
+                dirtToRoutes_intelligent(x-1,y);
+            }
+        }
+        if(y > 0){
+            if(Map1.tabMap[x][y-1] instanceof ParceTerre && Map1.tabMap[x][y-1].apparance == "./../img/dirt.png"){
+                dirtToRoutes_intelligent(x,y-1);
+            }
+        }
+        if(Map1.tabMap[x][y+1] instanceof ParceTerre && Map1.tabMap[x][y+1].apparance == "./../img/dirt.png"){
+            dirtToRoutes_intelligent(x,y+1);
+        }
+        else {
+            //info : la machine ne peut plus faire de route
+        }
+    }
+}
+
+function fruitRecolte(){ // Utiliser recolte_intelligente mais il faudra passer le png de la machine en parametre pour qu'il soit diff de celui des plants
+
+}
+
+function placerEngrais(x,y){
+
+}
+
+function Drone(){// Doit lancer les fonctions ci dessus automatiquement
+    //On commence par un parcours de la map :
+    let c = 0;
+    for(let i = 0 ; i < Map1.longueur ; i++){
+        for(let j = 0 ; j < Map1.largeur ; j++){
+            c = 0;
+            //Si la case regardée est recoltable :
+            if(Map1.tabMap[i][j].recoltable !== undefined){
+            if(Map1.tabMap[i][j].recoltable === true){
+                //recolte_intelligente(i,j);// Lance l'algo recolte auto sur la première parcelle compatible ||| doit vérif si arbre ou plant pour mettre le bon png
+                    //ajouter sprite machine recolte sur la case
+                    Map1.tabMap[i][j].recolte(i,j);
+                    Map1.afficherMap(canvas);
+                    c = 1;
+            }}
+            if(Map1.tabMap[i][j] instanceof ParceTerre && Map1.tabMap[i][j].apparance === "./../img/dirt.png" && c === 0){
+                Map1.tabMap[i][j].launchRoad(i,j);// Lance l'algo de tracage de routes sur la première case compatible
+                Map1.afficherMap(canvas);
+            }
+        }
+    }
 }
