@@ -6,7 +6,7 @@ console.log(player.pseudo);
 let Map1 = new Map(nbCaseX,nbCaseY, player);
 let memoire = {x : 50, y : 50}, graine = {};
 //let tabMap = Map1.getTabMap();
-Map1.tabMap[0][1] = new ParceTerre();
+
 Map1.afficherMap(canvas,context);
 
 // Position X du canvas

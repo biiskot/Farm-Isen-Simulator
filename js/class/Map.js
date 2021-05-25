@@ -3,7 +3,7 @@ const context = canvas.getContext('2d');
 let coeffDivX = canvas.width/8;
 let coeffDivY = canvas.height/6;
 
-class Map{
+class Map {
     constructor(longueur, largeur, player) {
         this.tabMap = new Array(longueur);
         this.longueur = longueur;
@@ -34,34 +34,31 @@ class Map{
 
         for (let i = 0; i < this.longueur; i++) {
             for (let j = 0; j < this.largeur; j++) {
-                if(this.tabMap[i][j] instanceof Parcelle === true && this.tabMap[i][j] instanceof ParceTerre === false && this.tabMap[i][j] instanceof ParcePousse === false){
+                if (this.tabMap[i][j] instanceof Parcelle === true && this.tabMap[i][j] instanceof ParceTerre === false && this.tabMap[i][j] instanceof ParcePousse === false) {
                     let imgHerbe = new Image();
                     imgHerbe.src = './../img/grass.png';
-                    imgHerbe.onload = function(){
-                        context.drawImage(imgHerbe, i*coeffDivX, j*coeffDivY,coeffDivX,coeffDivY);
+                    imgHerbe.onload = function () {
+                        context.drawImage(imgHerbe, i * coeffDivX, j * coeffDivY, coeffDivX, coeffDivY);
                     }
-                }
-                else if(this.tabMap[i][j] instanceof Parcelle === true && this.tabMap[i][j] instanceof ParceTerre === true){
+                } else if (this.tabMap[i][j] instanceof Parcelle === true && this.tabMap[i][j] instanceof ParceTerre === true) {
                     console.log('terre built');
                     let imgTerre = new Image();
-                    imgTerre.src=this.tabMap[i][j].apparance;
-                    imgTerre.onload = function(){
-                        context.drawImage(imgTerre, i*coeffDivX, j*coeffDivY,coeffDivX,coeffDivY);
+                    imgTerre.src = this.tabMap[i][j].apparance;
+                    imgTerre.onload = function () {
+                        context.drawImage(imgTerre, i * coeffDivX, j * coeffDivY, coeffDivX, coeffDivY);
                     }
-                }
-                else if(this.tabMap[i][j] instanceof Parcelle === true && this.tabMap[i][j] instanceof ParcePousse === true){
+                } else if (this.tabMap[i][j] instanceof Parcelle === true && this.tabMap[i][j] instanceof ParcePousse === true) {
                     let imgPousse = new Image();
-                    imgPousse.src= this.tabMap[i][j].appearance;
-                    imgPousse.onload = function(){
-                        context.drawImage(imgPousse, i*coeffDivX, j*coeffDivY,coeffDivX,coeffDivY);
+                    imgPousse.src = this.tabMap[i][j].appearance;
+                    imgPousse.onload = function () {
+                        context.drawImage(imgPousse, i * coeffDivX, j * coeffDivY, coeffDivX, coeffDivY);
                     }
                     console.log('pousse');
                 }
             }
         }
-console.log("0" , Map1.tabMap[0][0].recoltable, "1", Map1.tabMap[0][1].recoltable)
+        console.log("0", Map1.tabMap[0][0].recoltable, "1", Map1.tabMap[0][1].recoltable);
     }
-
 }
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -146,8 +143,8 @@ function testActionAFaire(x,y,tabmap){
     }
 
     if(tabmap[indiceTab.i][indiceTab.j] instanceof ParceTerre === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/dirt.png"){
-        //tabmap[indiceTab.i][indiceTab.j].launchRoad(indiceTab.i, indiceTab.j);
-        dirtToRoutes_intelligent(indiceTab.i, indiceTab.j);
+        tabmap[indiceTab.i][indiceTab.j].launchRoad(indiceTab.i, indiceTab.j);
+        //dirtToRoutes_intelligent(indiceTab.i, indiceTab.j);
         Map1.afficherMap(canvas);
         return;
     }
@@ -162,8 +159,8 @@ function testActionAFaire(x,y,tabmap){
 
 
     if(tabmap[indiceTab.i][indiceTab.j] instanceof ParcePousse === true){
-        recolte_intelligente(indiceTab.i, indiceTab.j);
-        Map1.afficherMap(canvas);
+      //  recolte_intelligente(indiceTab.i, indiceTab.j);
+        //Map1.afficherMap(canvas);
         return;
     }
 }
@@ -254,104 +251,4 @@ function eau(){
         Map1.tabMap[memoire.x][memoire.y].launchPousse(memoire.x, memoire.y);
     else
         return;
-}
-
-
-function recolte_intelligente(x,y){
-    if(Map1.tabMap[x][y].recoltable === true){
-        //ajouter sprite machine recolte sur la case
-        Map1.tabMap[x][y].recolte(x,y);
-        Map1.afficherMap(canvas);
-
-        if(Map1.tabMap[x+1][y].recoltable !== undefined && Map1.tabMap[x+1][y].recoltable === true){ // test les cases adjacentes
-            recolte_intelligente(x+1,y);
-        }
-        if((x-1)>0){
-            if(Map1.tabMap[x-1][y].recoltable !== undefined && Map1.tabMap[x-1][y].recoltable === true){
-                recolte_intelligente(x-1,y);
-            }
-        }
-        if((y-1)>0){
-            if(Map1.tabMap[x][y-1].recoltable !== undefined && Map1.tabMap[x][y-1].recoltable === true){
-                recolte_intelligente(x,y-1);
-            }
-        }
-        if(Map1.tabMap[x][y+1].recoltable !== undefined && Map1.tabMap[x][y+1].recoltable === true){
-            recolte_intelligente(x,y+1);
-        }
-        else {
-            //info : la machine ne peut plus récolter
-        }
-    }
-}
-
-/*
-function arrosage_intelligent(){
-    //Parcours du tableau de cases
-    for(let i = 0 ; i < Map1.longueur ; i++){
-        for(let j = 0 ; j < Map1.largeur ; j++){
-            if(Map1.tabMap[i][j] instanceof ParcePousse === true && Map1.tabMap[i][j].water < 50/100){//Si eau à - de 50%
-                Map1.tabMap[i][j].water = 100; // Arrose si la case a moins de la moitié de sa capacité en eau
-                //Ajouter baisse énérgie machine ou coût de l'arrosage.
-            }
-        }
-    }
-}
-*/
-
-function dirtToRoutes_intelligent(x,y){ // Machine qui trace les sillons (routes)
-    if(Map1.tabMap[x][y] instanceof ParceTerre && Map1.tabMap[x][y].apparance == "./../img/dirt.png"){
-        Map1.tabMap[x][y].launchRoad(x,y);
-
-        if(Map1.tabMap[x+1][y] instanceof ParceTerre && Map1.tabMap[x+1][y].apparance == "./../img/dirt.png"){ // test les cases adjacentes
-            dirtToRoutes_intelligent(x+1,y);
-        }
-        if((x-1) > 0){
-            if(Map1.tabMap[x-1][y] instanceof ParceTerre && Map1.tabMap[x-1][y].apparance == "./../img/dirt.png"){
-                dirtToRoutes_intelligent(x-1,y);
-            }
-        }
-        if(y > 0){
-            if(Map1.tabMap[x][y-1] instanceof ParceTerre && Map1.tabMap[x][y-1].apparance == "./../img/dirt.png"){
-                dirtToRoutes_intelligent(x,y-1);
-            }
-        }
-        if(Map1.tabMap[x][y+1] instanceof ParceTerre && Map1.tabMap[x][y+1].apparance == "./../img/dirt.png"){
-            dirtToRoutes_intelligent(x,y+1);
-        }
-        else {
-            //info : la machine ne peut plus faire de route
-        }
-    }
-}
-
-function fruitRecolte(){ // Utiliser recolte_intelligente mais il faudra passer le png de la machine en parametre pour qu'il soit diff de celui des plants
-
-}
-
-function placerEngrais(x,y){
-
-}
-
-function Drone(){// Doit lancer les fonctions ci dessus automatiquement
-    //On commence par un parcours de la map :
-    let c = 0;
-    for(let i = 0 ; i < Map1.longueur ; i++){
-        for(let j = 0 ; j < Map1.largeur ; j++){
-            c = 0;
-            //Si la case regardée est recoltable :
-            if(Map1.tabMap[i][j].recoltable !== undefined){
-            if(Map1.tabMap[i][j].recoltable === true){
-                //recolte_intelligente(i,j);// Lance l'algo recolte auto sur la première parcelle compatible ||| doit vérif si arbre ou plant pour mettre le bon png
-                    //ajouter sprite machine recolte sur la case
-                    Map1.tabMap[i][j].recolte(i,j);
-                    Map1.afficherMap(canvas);
-                    c = 1;
-            }}
-            if(Map1.tabMap[i][j] instanceof ParceTerre && Map1.tabMap[i][j].apparance === "./../img/dirt.png" && c === 0){
-                Map1.tabMap[i][j].launchRoad(i,j);// Lance l'algo de tracage de routes sur la première case compatible
-                Map1.afficherMap(canvas);
-            }
-        }
-    }
 }
