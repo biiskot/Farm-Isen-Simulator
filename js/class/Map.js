@@ -53,11 +53,9 @@ class Map {
                     imgPousse.onload = function () {
                         context.drawImage(imgPousse, i * coeffDivX, j * coeffDivY, coeffDivX, coeffDivY);
                     }
-                    console.log('pousse');
                 }
             }
         }
-        console.log("0", Map1.tabMap[0][0].recoltable, "1", Map1.tabMap[0][1].recoltable);
     }
 }
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -93,22 +91,10 @@ class ParceTerre extends Parcelle {
 
     launchRoad(x, y){
         this.apparance = "./../img/road.png";
+        Map1.afficherMap(canvas);
     }
 
-    launchPousse(x, y) {
-        /*
-            ANIMATION TRACTEUR
-         */
-        console.log("g", graine.name, "xy", memoire.x, memoire.y);
-        if(graine.name!= undefined && Map1.tabMap[memoire.x][memoire.y] instanceof ParceTerre === true && Map1.tabMap[memoire.x][memoire.y].apparance == "./../img/road.png"){
-            Map1.tabMap[x][y] = new ParcePousse(x, y);// GRAINE EN PARAM
-            let g = graine;
-            //graine = "";
-            poussePlante1(x, y, g);
-            memoire.x = 50;
-            memoire.y = 50;
-        }
-    }
+
 }
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -117,24 +103,35 @@ class ParcePousse extends Parcelle {
     constructor(x, y) {
         super(1, 1);
         //this.graineChoisie = graine;
-        this.pousseFinie = false;
         this.timerPousse = 300000;
-        this.appearance = "./../img/champs/road_millieu.png";
+        this.appearance = "./../img/champs/graine.png";
         this.recoltable = false;
-        console.log("nice : ", Map1.tabMap[x][y] instanceof ParcePousse);
         //this.time = setTimeout(poussePlante2(x, y, this.timerPousse), this.timerPousse / 3);
+    }
+
+    launchPousse(x, y) {
+        /*
+            ANIMATION TRACTEUR
+         */
+        console.log("g", graine.name, "xy", memoire.x, memoire.y);
+        if(graine.name!== undefined && Map1.tabMap[memoire.x][memoire.y] instanceof ParcePousse === true && Map1.tabMap[memoire.x][memoire.y].appearance == "./../img/champs/graine.png"){
+            let g = graine;
+            //graine = "";
+            poussePlante1(x, y, g);
+            memoire.x = 50;
+            memoire.y = 50;
+        }
     }
 
     recolte(x, y) {
         Map1.tabMap[x][y] = new ParceTerre();
         //this.player.Ajouter_Obj_Recolte(this.graineChoisie.name, 5); // ajoute le produit fini à l'inventaire
-        console.log("recolte effectuee, Vous avez gagne  = " + this.player.solde);
+        Map1.afficherMap(canvas);
     }
 }
 
 function testActionAFaire(x,y,tabmap){
     let indiceTab = getIndiceByCoords(x,y);
-    console.log(tabmap);
 
     if(tabmap[indiceTab.i][indiceTab.j] instanceof Parcelle === true && tabmap[indiceTab.i][indiceTab.j] instanceof ParceTerre === false && tabmap[indiceTab.i][indiceTab.j] instanceof ParcePousse === false ){
         tabmap[indiceTab.i][indiceTab.j].launchParceterre(indiceTab.i, indiceTab.j);
@@ -143,13 +140,15 @@ function testActionAFaire(x,y,tabmap){
     }
 
     if(tabmap[indiceTab.i][indiceTab.j] instanceof ParceTerre === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/dirt.png"){
-        tabmap[indiceTab.i][indiceTab.j].launchRoad(indiceTab.i, indiceTab.j);
+        //tabmap[indiceTab.i][indiceTab.j].launchRoad(indiceTab.i, indiceTab.j);
+        memoire.x = indiceTab.i;
+        memoire.y = indiceTab.j;
         //dirtToRoutes_intelligent(indiceTab.i, indiceTab.j);
         Map1.afficherMap(canvas);
         return;
     }
 
-    if(tabmap[indiceTab.i][indiceTab.j] instanceof ParceTerre === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/road.png"){
+    if((tabmap[indiceTab.i][indiceTab.j] instanceof ParceTerre === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/road.png") || (tabmap[indiceTab.i][indiceTab.j] instanceof ParceTerre === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/dirt.png") || (tabmap[indiceTab.i][indiceTab.j] instanceof ParcePousse === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/champs/carotte.png") || (tabmap[indiceTab.i][indiceTab.j] instanceof ParcePousse === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/champs/ble.png") || (tabmap[indiceTab.i][indiceTab.j] instanceof ParcePousse === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/champs/salade.png") || (tabmap[indiceTab.i][indiceTab.j] instanceof ParcePousse === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/champs/tournesol.png") || (tabmap[indiceTab.i][indiceTab.j] instanceof ParcePousse === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/champs/graine.png")){
         //tabmap[indiceTab.i][indiceTab.j].launchPousse(indiceTab.i, indiceTab.j);
         //Map1.afficherMap(canvas);
         memoire.x = indiceTab.i;
@@ -159,6 +158,8 @@ function testActionAFaire(x,y,tabmap){
 
 
     if(tabmap[indiceTab.i][indiceTab.j] instanceof ParcePousse === true){
+        memoire.x = indiceTab.i;
+        memoire.y = indiceTab.j;
       //  recolte_intelligente(indiceTab.i, indiceTab.j);
         //Map1.afficherMap(canvas);
         return;
@@ -172,16 +173,18 @@ function getIndiceByCoords(x,y){
     }
 }
 
-// fonction delay de i seconde
-function wait(i) {
-    setTimeout(function () {
-    }, 1000 * i);
+function poussePlante1(x, y, g) {
+    setTimeout(function(){
+        poussePlante0(x, y, g);
+    }, g.growTime/4);
+    Map1.afficherMap(canvas);
 }
 
-function poussePlante1(x, y, g) {
+function poussePlante0(x, y, g) {
     setTimeout(function(){
         poussePlante2(x, y, g);
     }, g.growTime/4);
+    Map1.tabMap[x][y].appearance = "./../img/champs/road_debut.png";
     Map1.afficherMap(canvas);
 }
 
@@ -189,7 +192,7 @@ function poussePlante2(x, y, g) {
     setTimeout(function(){
         poussePlante3(x, y, g);
     }, g.growTime/4);
-    Map1.tabMap[x][y].appearance = "./../img/champs/road_debut.png";
+    Map1.tabMap[x][y].appearance = "./../img/champs/road_fin.png";
     Map1.afficherMap(canvas);
 }
 
@@ -197,7 +200,7 @@ function poussePlante3(x, y, g) {
     setTimeout(function(){
         poussePlante4(x, y, g);
     }, g.growTime/4);
-    Map1.tabMap[x][y].appearance = "./../img/champs/road_fin.png";
+    Map1.tabMap[x][y].appearance = "./../img/champs/road_millieu.png";
     Map1.afficherMap(canvas);
 }
 
@@ -243,12 +246,14 @@ function graine_select(name){
             graine = player.carotte;
             break;
     }
-    console.log(graine);
 }
 
 function eau(){
     if(memoire.x != 50)
-        Map1.tabMap[memoire.x][memoire.y].launchPousse(memoire.x, memoire.y);
+        arrosage_intelligent(memoire.x, memoire.y);
+        //Map1.tabMap[memoire.x][memoire.y].launchPousse(memoire.x, memoire.y);
     else
         return;
+    Map1.afficherMap(canvas);
 }
+

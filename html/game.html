@@ -1,34 +1,93 @@
 <!DOCTYPE html>
+<html lang="fr">
+
 <head>
-    <title>Canvas</title>
-    <style>
-        #canvas{
-            position: absolute;
-            border: 2px solid rgba(123, 123, 123, 0.73);
-            right: 15px;
-            top: 60px;
-        }
-    </style>
+	<meta charset="utf-8"/>
+	<title>Canvas</title>
+
+	<style>
+		#canvas{
+			position: absolute;
+			border: 2px solid rgba(123, 123, 123, 0.73);
+			right: 15px;
+			top: 60px;
+		}
+	</style>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- stylesheet for demo and examples -->
+	<link rel="stylesheet" href="./../css/style.css">
+	<!-- custom scrollbar stylesheet -->
+	<link rel="stylesheet" href="./../css/jquery.mCustomScrollbar.css">
 </head>
 
 <body>
+	<a class="logo"></a>
+	<center><canvas width="940" height="652" id='canvas'></canvas></center>
 
-<center><canvas width="1200" height="1000" id='canvas'></canvas></center>
+<footer class="footer">
+	<section class="accordion">
+		<!-- accordion -->
+		<div id="accordion">
+		<!--	<h4>Parcelles</h4>
+			<ul>
+				<li><img src="./../img/interface/item_water.png" onclick="eau()"></li>
+			</ul>-->
 
-<img style="margin-left: 1000px; width: 150px;position: absolute" src="./../img/interface/item_water.png" onclick="eau()">
-<img style="margin-left: 1000px;margin-top: 150px; width: 150px;position: absolute" src="./../img/interface/item_salad.png" onclick="graine_select(1);">
-<img style="margin-left: 1000px;margin-top: 300px; width: 150px;position: absolute" src="./../img/interface/item_carrot.png" onclick="graine_select(2);">
-<img style="margin-left: 1000px;margin-top: 450px; width: 150px;position: absolute" src="./../img/interface/item_ble.png" onclick="graine_select(3);">
-<img style="margin-left: 1000px;margin-top: 600px; width: 150px;position: absolute" src="./../img/interface/item_sunflower.png" onclick="graine_select(4);">
-<img style="margin-left: 1000px;margin-top: 750px; width: 150px;position: absolute" src="./../img/machine/drone.png" onclick="Drone();">
-<img style="margin-left: 1000px;margin-top: 900px; width: 150px;position: absolute" src="./../img/machine/sillonner.png" onclick="dirtToRoutes_intelligent(memoire.x,memoire.y);">
-<img style="margin-left: 1000px;margin-top: 1050px; width: 150px;position: absolute" src="./../img/machine/moissonneuse.png" onclick="recolte_intelligente(memoire.x,memoire.y);">
+			<h4>Graines</h4>
+			<ul>
+				<li><img src="./../img/interface/item_salad.png" onclick="graine_select(1);"></li>
+				<li><img src="./../img/interface/item_carrot.png" onclick="graine_select(2);"></li>
+				<li><img src="./../img/interface/item_ble.png" onclick="graine_select(3);"></li>
+				<li><img src="./../img/interface/item_sunflower.png" onclick="test();"></li>
+			</ul>
 
-<script type="text/javascript" src="./../js/class/joueur.js"></script>
-<script type="text/javascript" src="./../js/class/inventaire.js"></script>
-<script type="text/javascript" src="./../js/class/animations.js"></script>
-<script type="text/javascript" src="./../js/class/machines.js"></script>
-<script type="text/javascript" src="./../js/class/Map.js"></script>
-<script type="text/javascript" src="./../js/main.js"></script>
-</body>
+			<h4>Machines</h4>
+			<ul>
+				<li><img src="./../img/machine/sillonner.png" onclick="dirtToRoutes_intelligent(memoire.x,memoire.y);"></li><br>
+				<li><img src="./../img/machine/semer.png" onclick="semer(memoire.x, memoire.y);"></li><br>
+				<li><img src="./../img/machine/arroser.png" onclick="eau();"></li><br>
+				<li><img src="./../img/machine/moissonneuse.png" onclick="recolte_intelligente(memoire.x,memoire.y);"></li><br>
+				<li><img src="./../img/machine/drone.png" onclick="Drone();"></li>
+			</ul>
+		</div>
+	</section>
 
+	<!-- Google CDN jQuery with fallback to local -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="../js/minified/jquery-1.11.0.min.js"><\/script>')</script>
+
+	<!-- Google CDN jQuery UI with fallback to local -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+	<script>window.jQuery.ui || document.write('<script src="../js/minified/jquery-ui-1.10.4.min.js"><\/script>')</script>
+
+	<!-- custom scrollbar plugin -->
+	<script src="./../js/jquery.mCustomScrollbar.concat.min.js"></script>
+
+	<script>
+		(function($){
+			$(window).on("load",function(){
+
+				$("#accordion").accordion({
+					create:function(e,ui){
+						/* call mCustomScrollbar function on each accordion content upon accordion creation */
+						$(".ui-accordion-content").mCustomScrollbar({
+							setHeight:300,
+							theme:"dark-thick"
+						});
+					}
+				});
+
+			});
+		})(jQuery);
+	</script>
+</footer>
+
+
+	<script type="text/javascript" src="./../js/class/joueur.js"></script>
+	<script type="text/javascript" src="./../js/class/inventaire.js"></script>
+	<script type="text/javascript" src="./../js/class/animations.js"></script>
+	<script type="text/javascript" src="./../js/class/machines.js"></script>
+	<script type="text/javascript" src="./../js/class/Map.js"></script>
+	<script type="text/javascript" src="./../js/main.js"></script>
+</body></html>

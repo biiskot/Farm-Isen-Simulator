@@ -1,0 +1,77 @@
+
+
+
+body{
+	background-color: #222;
+	color: #222;
+	font-size: 30px;
+}
+
+.logo {
+	background-image: url("../img/interface/FarmisenSimulator.png");
+	background-size: cover;
+
+	position: absolute;
+	top: 0;
+}
+
+img{
+	max-width: 40%;
+	padding: 8px;
+	height: auto;
+}
+
+ul {
+	list-style: none;
+}
+
+.accordion {
+	position: absolute;
+	bottom: 0;
+	text-align: center;
+
+	padding:  30px 0;
+	-webkit-border-radius: 10px;
+	background-image: url("../img/interface/verticalboard.png");
+	width: 285px;
+	height: 600px;
+	background-size: cover;
+}
+
+/*
+.footer {
+	position: -webkit-sticky;
+	position: sticky;
+	top: 0;
+}
+*/
+
+nav ul, .callbacks ul, .disable-destroy ul, .show-hide ul, #sortable ul, .dialog ul, .all-themes-switch ul, .scrollTo ul{
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.dialog {
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px; }
+
+/*.dialog {
+	background: #111;
+}
+
+.dialog ul li {
+	float: left;
+	margin: 3px 6px 3px 0;
+}
+
+.dialog ul li a {
+	display: block;
+	padding: 3px 15px;
+	text-decoration: none;
+	color: #ccc;
+}
+
+ */

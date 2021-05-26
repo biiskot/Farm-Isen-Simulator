@@ -46,3 +46,4 @@ console.log(player.get_Solde());
 player.Supp_Obj(player.blé.name, 1, 1);
 console.log("nb blé : " + player.blé.nb_poss);
 console.log(player.get_Solde());*/
+
