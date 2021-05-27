@@ -8,6 +8,7 @@ let memoire = {x : 50, y : 50}, graine = {}, verger;
 //let tabMap = Map1.getTabMap();
 
 Map1.afficherMap(canvas,context);
+displayCoinBalance();
 
 // Position X du canvas
 elemLeft = canvas.offsetLeft,
@@ -46,4 +47,3 @@ console.log(player.get_Solde());
 player.Supp_Obj(player.blé.name, 1, 1);
 console.log("nb blé : " + player.blé.nb_poss);
 console.log(player.get_Solde());*/
-

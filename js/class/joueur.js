@@ -3,31 +3,35 @@ class joueur{
         this.pseudo = pseudo;
         this.rendement = 50;
         this.ecologie = 50;
-        this.solde = 500; //Solde de départ à modifier, de quoi acheter le nécessaire pour amorcer
+        this.solde = 2500; //Solde de départ à modifier, de quoi acheter le nécessaire pour amorcer
     }
 
     get_Pseudo(){
         return this.pseudo;
     }
-    set_Rendement(value){
-        this.rendement = value;
+    set_Solde_down(value){
+        this.solde -= value;
+        displayCoinBalance();
     }
-    get_Rendement(){
-        return this.rendement;
-    }
-    set_Ecologie(value){
-        this.ecologie = value;
-    }
-    get_Ecologie(){
-        return this.ecologie;
-    }
-    set_Solde_down(value, nb){
-        this.solde -= (value * nb);
-    }
-    set_Solde_up(value, nb){
-        this.solde += (value * nb);
+    set_Solde_up(value){
+        this.solde += value;
+        displayCoinBalance();
     }
     get_Solde(){
+        displayCoinBalance();
         return this.solde;
     }
+}
+
+function displayCoinBalance(){
+    let baliseSolde = document.getElementById('coins');
+    let soldetxt = document.getElementById('soldepieces');
+    let imgCoin = new Image();
+
+    imgCoin.src = './../img/goldcoin.png'
+    imgCoin.width = '25';
+    imgCoin.height = '25';
+
+    soldetxt.innerHTML = "<img height='20' width='20' src='./../img/goldcoin.png'>" + player.solde;
+
 }

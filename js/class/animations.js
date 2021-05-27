@@ -1,6 +1,6 @@
-function animation(png, x, y, texture){
+function animation(png, x, y, texture, g){
     setTimeout(function(){
-        anim1(png, x, y, texture);
+        anim1(png, x, y, texture, g);
     }, 350);
     let imgMachine1 = new Image();
     imgMachine1.src= png;
@@ -9,9 +9,9 @@ function animation(png, x, y, texture){
     }
 }
 
-function anim1(png, x, y, texture){
+function anim1(png, x, y, texture, g){
     setTimeout(function(){
-        anim2(png, x, y, texture);
+        anim2(png, x, y, texture, g);
     }, 350);
 
     let imgHerbe = new Image();
@@ -25,9 +25,9 @@ function anim1(png, x, y, texture){
         context.drawImage(imgMachine2, (x+x+1)*(coeffDivX/2),y*(coeffDivY) ,coeffDivX/2,coeffDivY/2);
     }
 }
-function anim2(png, x, y, texture){
+function anim2(png, x, y, texture, g){
     setTimeout(function(){
-        anim3(png, x, y, texture);
+        anim3(png, x, y, texture, g);
     }, 350);
 
     let imgHerbe = new Image();
@@ -42,7 +42,7 @@ function anim2(png, x, y, texture){
         context.drawImage(imgMachine3, x*(coeffDivX),y*(coeffDivY)+coeffDivY/2,coeffDivY/2 ,coeffDivY/2);
     }
 }
-function anim3(png, x, y, texture){
+function anim3(png, x, y, texture, g){
 
 /* DIRT ROUTE*/
     if(png === './../img/machine/sillonner.png'){
@@ -115,7 +115,7 @@ function anim3(png, x, y, texture){
 /* SEMER GRAINE*/
     if(png === './../img/machine/semer.png'){
         setTimeout(function () {
-            Map1.tabMap[x][y] = new ParcePousse(x, y);
+            Map1.tabMap[x][y] = new ParcePousse(x, y, g);
             Map1.afficherMap(canvas);
         }, 350);
 

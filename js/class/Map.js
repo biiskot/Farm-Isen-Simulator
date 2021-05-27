@@ -113,15 +113,12 @@ class ParcePousse extends Parcelle {
     }
 
     launchPousse(x, y) {
-        /*
-            ANIMATION TRACTEUR
-         */
         if(graine.name!== undefined && Map1.tabMap[x][y] instanceof ParcePousse === true && Map1.tabMap[x][y].appearance == "./../img/champs/graine.png"){
             let g = graine;
-            //graine = "";
             poussePlante1(x, y, g);
             memoire.x = 50;
             memoire.y = 50;
+            player.set_Solde_down(g.prix); // Fait baisser le solde du joueuer en fonction du prix de la graine et actualise
         }
     }
 
@@ -129,6 +126,7 @@ class ParcePousse extends Parcelle {
         Map1.tabMap[x][y] = new ParceTerre();
         //this.player.Ajouter_Obj_Recolte(this.graineChoisie.name, 5); // ajoute le produit fini à l'inventaire
         Map1.afficherMap(canvas);
+        player.set_Solde_up(300);
     }
 }
 
@@ -150,7 +148,7 @@ function testActionAFaire(x,y,tabmap){
         Map1.afficherMap(canvas);
         return;
     }
-    if(tabmap[indiceTab.i][indiceTab.j] instanceof ParceTerre === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/orchard.png" || tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/champs/oranger.png" || tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/pommier.png"){
+    if(tabmap[indiceTab.i][indiceTab.j] instanceof ParceTerre === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/orchard.png" || tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/champs/oranger.png" || tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/champs/pommier.png"){
         //tabmap[indiceTab.i][indiceTab.j].launchRoad(indiceTab.i, indiceTab.j);
         memoire.x = indiceTab.i;
         memoire.y = indiceTab.j;
@@ -284,26 +282,31 @@ function planteArbre(type, x, y) {
         setTimeout(function () {
             Map1.tabMap[x][y].apparance = './../img/champs/oranger.png';
             Map1.afficherMap(canvas);
+            player.set_Solde_down(50);
         }, 8000);
     }
     else if(type === 'pommier'){
         setTimeout(function () {
             Map1.tabMap[x][y].apparance = './../img/champs/pommier.png';
             Map1.afficherMap(canvas);
+            player.set_Solde_down(50);
         }, 8000);
     }
 }
 
 function recolte_Arbre(x, y) {
-    setTimeout(function () {
-        Map1.tabMap[x][y].apparance = './../img/orchard.png';
-        Map1.afficherMap(canvas);
-    }, 3000);
-    console.log(x, y);
-    let robot = new Image();
-    robot.src = './../img/machine/robot.png';
-    robot.onload = function(){
-        context.drawImage(robot, x * coeffDivX, y * coeffDivY, coeffDivX, coeffDivY);
-    };
-}
+    if(Map1.tabMap[x][y].apparance === './../img/champs/pommier.png' || Map1.tabMap[x][y].apparance === './../img/champs/oranger.png'){
+        setTimeout(function () {
+            Map1.tabMap[x][y].apparance = './../img/orchard.png';
+            Map1.afficherMap(canvas);
+            player.set_Solde_up(400);
+        }, 3000);
 
+        let robot = new Image();
+        robot.src = './../img/machine/robot.png';
+        robot.onload = function(){
+            context.drawImage(robot, x * coeffDivX, y * coeffDivY, coeffDivX, coeffDivY);
+        };
+        player.set_Solde_down(30);
+    }
+}

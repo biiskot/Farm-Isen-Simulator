@@ -2,12 +2,12 @@ class inventaire extends joueur{
     constructor(pseudo) {
         super(pseudo);
     // Graines :
-        this.patate = {name : "patate", type : "graine", prix : 50, nb_poss : 2, growTime : 3500};
-        this.salade = {name : "salade", type : "graine", prix : 80, nb_poss : 0, growTime : 6000};
-        this.carotte = {name : "carotte", type : "graine", prix : 100, nb_poss : 0, growTime : 4000};
-        this.pomme = {name : "pomme", type : "graine", prix : 150, nb_poss : 0, growTime : 50};
-        this.tournesol = {name : "tournesol", type : "graine", prix : 200, nb_poss : 0, growTime : 8000};
-        this.ble = {name : "ble", type : "graine", prix : 200,  nb_poss : 0, growTime : 10000};
+        this.patate = {name : "patate", type : "graine", prix : 10, nb_poss : 2, growTime : 3500};
+        this.salade = {name : "salade", type : "graine", prix : 10, nb_poss : 0, growTime : 6000};
+        this.carotte = {name : "carotte", type : "graine", prix : 10, nb_poss : 0, growTime : 4000};
+        this.pomme = {name : "pomme", type : "graine", prix : 20, nb_poss : 0, growTime : 50};
+        this.tournesol = {name : "tournesol", type : "graine", prix : 10, nb_poss : 0, growTime : 8000};
+        this.ble = {name : "ble", type : "graine", prix : 10,  nb_poss : 0, growTime : 10000};
     // Recoltes :
         this.patatef = {name : "patatef", type : "finie", nb_poss : 0};
         this.saladef = {name : "saladef", type : "finie", nb_poss : 0};
@@ -15,10 +15,6 @@ class inventaire extends joueur{
         this.pommef = {name : "pommef", type : "finie", nb_poss : 0};
         this.tournesolf = {name : "tournesolf", type : "finie", nb_poss : 0};
         this.blef = {name : "ble", type : "finief",  nb_poss : 0};
-    // Autres :
-        this.tracteur = {name : "tracteur", type : "install", prix : 0,  nb_poss : 1}
-        this.laboureur = {name : "laboureur", type : "install", prix : 0,  nb_poss : 0}
-        this.tracteur_silencieux = {name : "fractor", type : "install", prix : 3000,  nb_poss : 0};
     }
 
 
