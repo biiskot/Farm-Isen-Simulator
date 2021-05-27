@@ -4,7 +4,7 @@ let nbCaseX = 8, nbCaseY = 6;
 console.log("kk", -1 % 10);
 console.log(player.pseudo);
 let Map1 = new Map(nbCaseX,nbCaseY, player);
-let memoire = {x : 50, y : 50}, graine = {};
+let memoire = {x : 50, y : 50}, graine = {}, verger;
 //let tabMap = Map1.getTabMap();
 
 Map1.afficherMap(canvas,context);
@@ -46,3 +46,4 @@ console.log(player.get_Solde());
 player.Supp_Obj(player.blé.name, 1, 1);
 console.log("nb blé : " + player.blé.nb_poss);
 console.log(player.get_Solde());*/
+
