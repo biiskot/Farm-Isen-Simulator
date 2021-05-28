@@ -44,7 +44,7 @@ function anim2(png, x, y, texture, g){
 }
 function anim3(png, x, y, texture, g){
 
-/* DIRT ROUTE*/
+    /* DIRT ROUTE*/
     if(png === './../img/machine/sillonner.png'){
         setTimeout(function(){
             Map1.tabMap[x][y].launchRoad(x, y);
@@ -80,7 +80,7 @@ function anim3(png, x, y, texture, g){
         }
     }
 
-/* RECOLTE */
+    /* RECOLTE */
     if(png === './../img/machine/moissonneuse.png'){
         setTimeout(function(){
             Map1.tabMap[x][y].recolte(x, y);
@@ -112,7 +112,7 @@ function anim3(png, x, y, texture, g){
         }
     }
 
-/* SEMER GRAINE*/
+    /* SEMER GRAINE*/
     if(png === './../img/machine/semer.png'){
         setTimeout(function () {
             Map1.tabMap[x][y] = new ParcePousse(x, y, g);
@@ -148,7 +148,7 @@ function anim3(png, x, y, texture, g){
         }
     }
 
-/* ARROSER */
+    /* ARROSER */
     if(png === './../img/machine/arroser.png'){
         setTimeout(function () {
             Map1.tabMap[x][y].launchPousse(x, y);

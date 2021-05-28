@@ -3,70 +3,8 @@
 
 <head>
 	<meta charset="utf-8"/>
-	<title>Canvas</title>
-
-	<style>
-      .example {
-      cursor: pointer;
-      height: 100px;
-      position: relative;
-      overflow: hidden;
-      width: 100px;
-      text-align:center;
-      }
-      .example .fadedbox {
-      background-color: #666666;
-      position: absolute;
-      top: 0;
-      left: 0;
-      color: #fff;
-      -webkit-transition: all 300ms ease-out;
-      -moz-transition: all 300ms ease-out;
-      -o-transition: all 300ms ease-out;
-      -ms-transition: all 300ms ease-out;
-      transition: all 300ms ease-out;
-      opacity: 0;
-      width: 100px;
-      height: 100px;
-      padding: 130px 20px;
-      }
-      .example:hover .fadedbox { opacity: 0.8; }
-      .example .text {
-      -webkit-transition: all 300ms ease-out;
-      -moz-transition: all 300ms ease-out;
-      -o-transition: all 300ms ease-out;
-      -ms-transition: all 300ms ease-out;
-      transition: all 300ms ease-out;
-      transform: translateY(30px);
-      -webkit-transform: translateY(30px);
-      }
-      .example .title {
-      font-size: 2.5em;
-      text-transform: uppercase;
-      opacity: 0;
-      transition-delay: 0.2s;
-      transition-duration: 0.3s;
-      }
-      .example:hover .title,
-      .example:focus .title {
-      opacity: 1;
-      transform: translateY(0px);
-      -webkit-transform: translateY(0px);
-      }
-    </style>
-	<style>
-		#canvas{
-			position: absolute;
-			border: 2px solid rgba(123, 123, 123, 0.73);
-			right: 15px;
-			top: 60px;
-		}
-		#coins{
-			float: right;
-			font-size: 15px;
-			color: blanchedalmond;
-		}
-	</style>
+	<title>Farm'isen Simulator</title>
+	<link rel="icon" href="./../img/interface/icon_fs.png" />
 
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<!-- stylesheet for demo and examples -->
@@ -76,56 +14,98 @@
 </head>
 
 <body>
-	<a class="logo"></a>
+	<a class="logo" href="game.html"></a>
 
 	<div id='coins'>
 		<p id='soldepieces'></p>
 	</div>
 
-	<center><canvas width="940" height="652" id='canvas'></canvas></center>
+	<center><canvas width="1140" height="798" id='canvas'></canvas></center>
 
-<footer class="footer">
 	<section class="accordion">
 		<!-- accordion -->
 		<div id="accordion">
-		<!--	<h4>Parcelles</h4>
-			<ul>
-				<li><img src="./../img/interface/item_water.png" onclick="eau()"></li>
-			</ul>-->
-
 			<h4>Parcelles</h4>
 			<ul>
 				<li><img src="./../img/dirt.png" onclick="verger_ou_dirt(false, memoire.x, memoire.y);"></li>
-				<li><img src="./../img/verger.png" onclick="verger_ou_dirt(true, memoire.x, memoire.y);"></li>
+				<li><img src="./../img/orchard.png" onclick="verger_ou_dirt(true, memoire.x, memoire.y);"></li>
 			</ul>
-
 
 			<h4>Graines</h4>
-
-			<div class="k">
-				<div class="example">
-					<img src="./../img/interface/item_salad.png">
-					<div class="fadedbox">
-						<div class="title text"  onclick="graine_select(1);"> Maison</div>
-					</div>
-				</div>
-				<div><img src="./../img/interface/item_carrot.png" onclick="graine_select(2);"></div>
-				<div><img src="./../img/interface/item_ble.png" onclick="graine_select(3);"></div>
-				<div><img src="./../img/interface/item_sunflower.png" onclick="graine_select(4);"></div>
-				<div><img src="./../img/interface/item_apple.png" onclick="planteArbre('pommier', memoire.x, memoire.y);"></div>
-				<div><img src="./../img/interface/item_orange.png" onclick="planteArbre('oranger', memoire.x, memoire.y);"></div>
-			</div>
-
+			<ul>
+				<li><img src="./../img/interface/item_salad.png" onclick="graine_select(1);"></li>
+				<li><img src="./../img/interface/item_carrot.png" onclick="graine_select(2);"></li>
+				<li><img src="./../img/interface/item_ble.png" onclick="graine_select(3);"></li>
+				<li><img src="./../img/interface/item_sunflower.png" onclick="graine_select(4);"></li>
+				<li><img src="./../img/interface/item_apple.png" onclick="planteArbre('pommier', memoire.x, memoire.y);"></li>
+				<li><img src="./../img/interface/item_orange.png" onclick="planteArbre('oranger', memoire.x, memoire.y);"></li>
+			</ul>
 
 			<h4>Machines</h4>
-			<ul>
-				<li><img src="./../img/machine/sillonner.png" onclick="dirtToRoutes_intelligent(memoire.x,memoire.y);"></li><br>
-				<li><img src="./../img/machine/semer.png" onclick="semer(memoire.x, memoire.y);"></li><br>
-				<li><img src="./../img/machine/arroser.png" onclick="eau();"></li><br>
-				<li><img src="./../img/machine/moissonneuse.png" onclick="recolte_intelligente(memoire.x,memoire.y);"></li><br>
-				<li><img src="./../img/machine/robot.png" onclick="recolte_Arbre(memoire.x,memoire.y);"></li><br>
-				<li><img src="./../img/machine/drone.png" onclick="Drone();"></li>
-			</ul>
+			<div class="k">
+				<div class="example">
+					<img src="./../img/machine/arroser.png">
+					<div class="fadedbox">
+						<div class="title text" onclick="eau();">
+							Ce robot permet d'hydrater les plantations du champs sur plusieurs héctares grâce à sa
+							contenance en eau qui est égales à 200 litres. Le robot ce déplace librement sur les terres grâce à son ia développée et grâce au
+							paramétrage de la carte et de ses cibles préétablies. La machine fonctionne aussi à l'énergie solaire et
+							est donc économe en énergie.
+						</div>
+					</div>
+				</div>
+				<div class="example">
+					<img src="./../img/machine/sillonner.png">
+					<div class="fadedbox">
+						<div class="title text" onclick="dirtToRoutes_intelligent(memoire.x,memoire.y);">
+							Sorte de tracteur nouvelle génération, qui avec un outil à l'arrière peut permettre de labourer et sillonner
+							les champs à une vitesse et précision inégalable. De plus, cet appareil est auto suffisant du fait qu'il consomme
+							de l'énergie solaire, ce qui est un grand avantage en terme de consommation d'énergie.
+						</div>
+					</div>
+				</div>
+				<div class="example">
+					<img src="./../img/machine/semer.png">
+					<div class="fadedbox">
+						<div class="title text" onclick="semer(memoire.x, memoire.y);">
+							Cette machine permet de semer les graines choisies sur plusieurs hectares grâce aux 60kg de produits
+							qu'il peut contenir. Le robot ce déplace librement sur les terres grâce à son ia développée et grâce au
+							paramétrage de la carte et de ses cibles préétablies. Le robot fonctionne aussi à l'énergie solaire et
+							est donc économe en énergie.
+						</div>
+					</div>
+				</div>
+				<div class="example">
+					<img src="./../img/machine/moissonneuse.png">
+					<div class="fadedbox">
+						<div class="title text" onclick="recolte_intelligente(memoire.x,memoire.y);">
+							La moissoneuse batteuse permet d'effectuer un travail irréprochable, elle
+							automatise la séparation et le nettoyage du grain et règle en permanence les organes de
+							la machine de façon à obtenir le meilleur résultat tout en optimisant le débit.
+						</div>
+					</div>
+				</div>
+				<div class="example">
+					<img src="./../img/machine/bras.png">
+					<div class="fadedbox">
+						<div class="title text" onclick="recolte_Arbre(memoire.x,memoire.y);">
+							Machine permettant de cueillir les fruits directement dans l'arbre. Ce bras robotisé permet de garder un
+							niveau de quantité et de qualité ne pouvant être atteint à la main. Il facilite le travaile en hauteur et
+							permet d'éviter les accidents. Cette machine possède une trajectoire piloté par une intelligence artificielle.
+						</div>
+					</div>
+				</div>
+				<div class="example">
+					<img src="./../img/machine/drone.png">
+					<div class="fadedbox">
+						<div class="title text" onclick="Drone();">
+							Le drone est l'outil du fermier le plus important, en effet il lui permet de surveiller
+							son champ, et l'alerte automatiquement si une anomalie s'y produit. Son autonomie lui permet
+							de traverser plusieurs héctares et sait où se déplacer grâce à la carte du champ qu'il a en mémoire.
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</section>
 
@@ -157,7 +137,42 @@
 			});
 		})(jQuery);
 	</script>
-</footer>
+
+	<!--
+	<footer class="footer">
+		<div id="info">
+			ici se trouvera des informations supplémentaires
+		</div>
+	</footer>
+	-->
+
+	<audio style="display: none;" id="theme" controls autoplay loop >
+		<source src="./../theme/musique.mp3" type="audio/mpeg">
+	</audio>
+
+	<div class="controlContainer">
+		<button onclick="pause()" class="button btn1"></button>
+		<button onclick="play()" class="button btn2"></button>
+		<button onclick="volumeMax()" class="button btn3"></button>
+		<button onclick="volumeMin()" class="button btn4"></button>
+	</div>
+
+	<script>
+		var son = document.getElementById("theme");
+
+		function play() {
+			son.play();
+		}
+		function pause() {
+			son.pause();
+		}
+		function volumeMin() {
+			son.volume = 0;
+		}
+		function volumeMax() {
+			son.volume = 1;
+		}
+	</script>
 
 
 	<script type="text/javascript" src="./../js/class/joueur.js"></script>

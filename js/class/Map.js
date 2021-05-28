@@ -22,15 +22,7 @@ class Map {
         }
     }
 
-    placerParcelle(indiceX, indiceY, parcelle) {
-        this.tabMap[indiceX][indiceY].onclick = parcelle;
-    }
-
     afficherMap(canvas) {
-        // context.clearRect(0, 0, canvas.width, canvas.height);
-        //let imgHerbe = new Image();
-        //let imgTerre = new Image();
-        //let imgPousse = new Image();
 
         for (let i = 0; i < this.longueur; i++) {
             for (let j = 0; j < this.largeur; j++) {
@@ -69,14 +61,6 @@ class Parcelle {
         this.recoltable = false;
         this.player = player;
     }
-
-
-    launchParceterre(x, y){
-        /*
-           ANIMATION LABOUREUR
-         */
-        Map1.tabMap[x][y] = new ParceTerre();                    // a la place de cliquer sur la terre et ça launchPousse, il faudrai que sa pop up les graines où nb_poss > 0 et addeventlistener sur tt les graines, qui click=> launchpousse et comme ça la tu recup grainechoisie
-    }
 }
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -96,35 +80,29 @@ class ParceTerre extends Parcelle {
         this.apparance = "./../img/road.png";
         Map1.afficherMap(canvas);
     }
-
-
 }
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 class ParcePousse extends Parcelle {
-    constructor(x, y) {
+    constructor(x, y, g) {
         super(1, 1);
-        //this.graineChoisie = graine;
-        this.timerPousse = 300000;
         this.appearance = "./../img/champs/graine.png";
         this.recoltable = false;
-        //this.time = setTimeout(poussePlante2(x, y, this.timerPousse), this.timerPousse / 3);
+        this.graine = g;
     }
 
     launchPousse(x, y) {
         if(graine.name!== undefined && Map1.tabMap[x][y] instanceof ParcePousse === true && Map1.tabMap[x][y].appearance == "./../img/champs/graine.png"){
-            let g = graine;
-            poussePlante1(x, y, g);
             memoire.x = 50;
             memoire.y = 50;
-            player.set_Solde_down(g.prix); // Fait baisser le solde du joueuer en fonction du prix de la graine et actualise
+            player.set_Solde_down(this.graine.prix); // Fait baisser le solde du joueuer en fonction du prix de la graine et actualise
+            poussePlante1(x, y, this.graine);
         }
     }
 
     recolte(x, y) {
         Map1.tabMap[x][y] = new ParceTerre();
-        //this.player.Ajouter_Obj_Recolte(this.graineChoisie.name, 5); // ajoute le produit fini à l'inventaire
         Map1.afficherMap(canvas);
         player.set_Solde_up(300);
     }
@@ -134,7 +112,6 @@ function testActionAFaire(x,y,tabmap){
     let indiceTab = getIndiceByCoords(x,y);
 
     if(tabmap[indiceTab.i][indiceTab.j] instanceof Parcelle === true && tabmap[indiceTab.i][indiceTab.j] instanceof ParceTerre === false && tabmap[indiceTab.i][indiceTab.j] instanceof ParcePousse === false ){
-        //tabmap[indiceTab.i][indiceTab.j].launchParceterre(indiceTab.i, indiceTab.j);
         Map1.tabMap[indiceTab.i][indiceTab.j] = new ParceTerre(verger, indiceTab.i, indiceTab.j);
         Map1.afficherMap(canvas);
         return;
@@ -144,22 +121,17 @@ function testActionAFaire(x,y,tabmap){
         //tabmap[indiceTab.i][indiceTab.j].launchRoad(indiceTab.i, indiceTab.j);
         memoire.x = indiceTab.i;
         memoire.y = indiceTab.j;
-        //dirtToRoutes_intelligent(indiceTab.i, indiceTab.j);
         Map1.afficherMap(canvas);
         return;
     }
     if(tabmap[indiceTab.i][indiceTab.j] instanceof ParceTerre === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/orchard.png" || tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/champs/oranger.png" || tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/champs/pommier.png"){
-        //tabmap[indiceTab.i][indiceTab.j].launchRoad(indiceTab.i, indiceTab.j);
         memoire.x = indiceTab.i;
         memoire.y = indiceTab.j;
-        //dirtToRoutes_intelligent(indiceTab.i, indiceTab.j);
         Map1.afficherMap(canvas);
         return;
     }
 
     if((tabmap[indiceTab.i][indiceTab.j] instanceof ParceTerre === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/road.png") || (tabmap[indiceTab.i][indiceTab.j] instanceof ParceTerre === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/dirt.png") || (tabmap[indiceTab.i][indiceTab.j] instanceof ParcePousse === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/champs/carotte.png") || (tabmap[indiceTab.i][indiceTab.j] instanceof ParcePousse === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/champs/ble.png") || (tabmap[indiceTab.i][indiceTab.j] instanceof ParcePousse === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/champs/salade.png") || (tabmap[indiceTab.i][indiceTab.j] instanceof ParcePousse === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/champs/tournesol.png") || (tabmap[indiceTab.i][indiceTab.j] instanceof ParcePousse === true && tabmap[indiceTab.i][indiceTab.j].apparance == "./../img/champs/graine.png")){
-        //tabmap[indiceTab.i][indiceTab.j].launchPousse(indiceTab.i, indiceTab.j);
-        //Map1.afficherMap(canvas);
         memoire.x = indiceTab.i;
         memoire.y = indiceTab.j;
         return;
@@ -169,8 +141,6 @@ function testActionAFaire(x,y,tabmap){
     if(tabmap[indiceTab.i][indiceTab.j] instanceof ParcePousse === true){
         memoire.x = indiceTab.i;
         memoire.y = indiceTab.j;
-      //  recolte_intelligente(indiceTab.i, indiceTab.j);
-        //Map1.afficherMap(canvas);
         return;
     }
 }
@@ -184,13 +154,6 @@ function getIndiceByCoords(x,y){
 
 function poussePlante1(x, y, g) {
     setTimeout(function(){
-        poussePlante0(x, y, g);
-    }, g.growTime/4);
-    Map1.afficherMap(canvas);
-}
-
-function poussePlante0(x, y, g) {
-    setTimeout(function(){
         poussePlante2(x, y, g);
     }, g.growTime/4);
     Map1.tabMap[x][y].appearance = "./../img/champs/road_debut.png";
@@ -201,7 +164,7 @@ function poussePlante2(x, y, g) {
     setTimeout(function(){
         poussePlante3(x, y, g);
     }, g.growTime/4);
-    Map1.tabMap[x][y].appearance = "./../img/champs/road_fin.png";
+    Map1.tabMap[x][y].appearance = "./../img/champs/road_millieu.png";
     Map1.afficherMap(canvas);
 }
 
@@ -209,7 +172,7 @@ function poussePlante3(x, y, g) {
     setTimeout(function(){
         poussePlante4(x, y, g);
     }, g.growTime/4);
-    Map1.tabMap[x][y].appearance = "./../img/champs/road_millieu.png";
+    Map1.tabMap[x][y].appearance = "./../img/champs/road_fin.png";
     Map1.afficherMap(canvas);
 }
 

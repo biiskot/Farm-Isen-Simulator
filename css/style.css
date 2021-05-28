@@ -1,80 +1,189 @@
-body{
+/*
+*, *:before, *:after {
+	margin: 0;
+	padding: 0;
+
+}
+*/
+
+#canvas{
+	position: absolute;
+	border: 3px solid saddlebrown;
+	right: 5px;
+	top: 60px;
+	border-radius: 13px;
+}
+
+#coins{
+	position: absolute;
+	top: 0px;
+	right:400px;
+	font-size: 25px;
+	color: blanchedalmond;
+	transform: translateY(-15%);
+}
+
+body {
 	background-color: #222;
-	color: #222;
+	font-family: 'Open Sans Hebrew', Arial, sans-serif;
+	color: #532408;
 	font-size: 30px;
 }
 
 .logo {
-	background-image: url("../img/interface/FarmisenSimulator.png");
+	background-image: url("../img/interface/ban.png");
 	background-size: cover;
 
 	position: absolute;
-	top: 0;
+	top: 2px;
+
+	width: 300px;
+	height: 54px;
+
+	margin: 0 50%;
+	transform: translateX(-50%);
 }
 
-img{
-	max-width: 40%;
-	padding: 8px;
+img {
+	max-width: 60%;
 	height: auto;
+	padding: 8px;
+	transform: translateX(8%);
 }
 
-ul {
-	list-style: none;
+.controlContainer{
+	position: absolute;
+	right: 5px;
+	top: 5px;
+}
+
+.button {
+	border: none;
+	height: 50px;
+	width: 50px;
+	border-radius: 5px;
+	margin-left: 10px;
+}
+
+.btn1 {
+	background-image: url("../img/interface/icon_pause.png");
+	background-size: cover;
+}
+
+.btn2 {
+	background-image: url("../img/interface/icon_play.png");
+	background-size: cover;
+}
+
+.btn3 {
+	background-image: url("../img/interface/icon_sound.png");
+	background-size: cover;
+}
+
+.btn4 {
+	background-image: url("../img/interface/icon_mute.png");
+	background-size: cover;
 }
 
 .accordion {
 	position: absolute;
-	bottom: 0;
+	top: 0;
+	left: 5px;
 	text-align: center;
+	text-shadow:   -0.5px -0.5px 0 #F9A340;
+
+	width: 375px;
+	height: 803px;
 
 	padding:  30px 0;
 	-webkit-border-radius: 10px;
 	background-image: url("../img/interface/verticalboard.png");
-	width: 285px;
-	height: 600px;
 	background-size: cover;
 }
 
+footer {
+	position: absolute;
+	bottom: 0;
+	left: 5px;
+	text-align: center;
+	font-size: 16px;
+	color: #E5963B;
+	text-shadow:   1px 1px 0 #532408;
+
+	width: 375px;
+	height: 200px;
+
+	padding:  30px 0;
+	-webkit-border-radius: 10px;
+	background-image: url("../img/interface/verticalboard.png");
+	background-size: cover;
+}
+
+#info {
+	margin-top: 25%; /* poussé de la moitié de hauteur de viewport */
+	transform: translateY(-50%); /* tiré de la moitié de sa propre hauteur */
+	padding: 5px;
+}
+
+.example {
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	text-align:center;
+}
+
+.example .fadedbox {
+	font-size: 20px;
+	position: absolute;
+	top: 0;
+	left: 5px;
+	color: #E5963B;
+	text-shadow: 1px 1px 0 #532408;
+	opacity: 0;
+	width: 340px;
+}
+
+.example:hover .fadedbox {
+	opacity: 1;
+} .example .text {
+	  -webkit-transition: all 300ms ease-out;
+	  -moz-transition: all 300ms ease-out;
+	  -o-transition: all 300ms ease-out;
+	  -ms-transition: all 300ms ease-out;
+	  transition: all 500ms ease-out;
+	  height: 300px;
+	  transform: translateY(-50%);
+  }
+
+.example:hover .title, .example:focus .title {
+	opacity: 1;
+	transform: translateY(0px);
+	-webkit-transform: translateY(0px);
+}
+
+.k {
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	width: 375px;
+}
+
+.ui-widget-content{
+	height: auto;
+}
+
 /*
+
 .footer {
 	position: -webkit-sticky;
 	position: sticky;
 	top: 0;
 }
+
+
+ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom mCustomScrollbar _mCS_2 ui-accordion-content-active
 */
 
-nav ul, .callbacks ul, .disable-destroy ul, .show-hide ul, #sortable ul, .dialog ul, .all-themes-switch ul, .scrollTo ul{
-	overflow: hidden;
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-.k{
-	overflow: hidden;
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	height:400px;
-}
-.dialog {
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px; }
 
-/*.dialog {
-	background: #111;
-}
 
-.dialog ul li {
-	float: left;
-	margin: 3px 6px 3px 0;
-}
-
-.dialog ul li a {
-	display: block;
-	padding: 3px 15px;
-	text-decoration: none;
-	color: #ccc;
-}
-
- */

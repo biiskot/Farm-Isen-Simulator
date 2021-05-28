@@ -14,7 +14,7 @@ function dirtToRoutes_intelligent(x,y){ // Machine qui trace les sillons (routes
 }
 
 function arrosage_intelligent(x, y){
-    if(graine.name!= undefined && Map1.tabMap[x][y] instanceof ParcePousse === true && Map1.tabMap[x][y].appearance == "./../img/champs/graine.png"){
+    if(graine.name !== undefined && Map1.tabMap[x][y] instanceof ParcePousse && Map1.tabMap[x][y].appearance === "./../img/champs/graine.png"){
         player.set_Solde_down(20);
         animation('./../img/machine/arroser.png', x, y, './../img/champs/grainez.png');
     }
